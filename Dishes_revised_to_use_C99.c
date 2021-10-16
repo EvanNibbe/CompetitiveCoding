@@ -20,32 +20,19 @@ struct Dish_stack_place {
 	int n, high, low;
 	int set; 
 };
-//establishes whether a value has been checked for this position (making it a base case)
 typedef struct Dish_stack_place dishes;
 
 #define MAX_DISH 501
 
 
-//dishes *max(dishes *arg1, dishes *arg2) {
-//	if (arg1->n>arg2->n) {
-//		return arg1;
-//	} else {
-//		return arg2;
-//	}
-//}
-			//n=size array				//i=max # dishes	j=max index of dish
-//dishes *recurback(int *array, int n, dishes table[MAX_DISH*MAX_DISH], int i, 		int j) {
-//	plus(table[i*MAX_DISH+j], j, array[j]);
-//	return max(recurback(array, table, )
-//}
 
-int buildTable(int array[MAX_DISH], int n) { //the first n numbers are used
+int buildTable(int array[MAX_DISH], int n) { 
 	if (n==0) {
 		exit(0);
 	} else if (n==1) {
 		return 1;
 	} else if (n==2) {
-		return 2; //you are guaranteed with 2 dishes total to be able to stack both
+		return 2; 
 	}
 	dishes table[MAX_DISH*MAX_DISH];
 	int i, j, k;
@@ -53,14 +40,13 @@ int buildTable(int array[MAX_DISH], int n) { //the first n numbers are used
 		table[i].n=1;
 		table[i].high=array[i];
 		table[i].low=array[i];
-		table[i].set=1; //base case of recursion
+		table[i].set=1; 
 		if (i>=1) {
-			//need to find the dish prior to i which is closest to array[i] in number (thus maximizing the amount of other dishes later that can be put with it)
-			//second row of table
+			
 			table[n+i].n=2;
-			table[n+i].set=1; //base case of recursion.
+			table[n+i].set=1; 
 			int close_ind=0;
-			for (int j=0; j<i; j++) {
+			for (j=0; j<i; j++) {
 				if (abs(array[j]-array[i])<abs(array[close_ind]-array[i])) {
 					close_ind=j;
 				}
@@ -74,21 +60,17 @@ int buildTable(int array[MAX_DISH], int n) { //the first n numbers are used
 			
 			}
 		} 
-			table[n*i].set=1; //base case of recursion.
+			table[n*i].set=1; 
 			table[n*i].n=1;
 			table[n*i].low=array[0];
 			table[n*i].high=array[0];
 	}
-	//Now for determining the best path by proxy, starting with replacing 
-	//dishes1 with what the line in the table where we can choose up to 3 dishes would be
+	
 	for (i=2; i<n; i++) {
 		for (j=1; j<n; j++) {
 			table[n*i+j].set=0;
-			//we need to determine the first set of dishes in the previous row which gives us the ability to put in dish j (that does not already include dish j)
-			//we have a primary preference to find one that has i dishes right now (or maximum number of dishes)
-			//we have a preference to first find the position that is closest to array[j] that also has maximum dishes right now
 			for (k=0; k<j; k++) {
-				if (table[n*(i-1)+k].low>=array[j] && table[n*(i-1)+k].set) { //&& table[n*(i-1)+k].n==i) {
+				if (table[n*(i-1)+k].low>=array[j] && table[n*(i-1)+k].set) { 
 					if (table[n*i+j].set==0) {
 						table[n*i+j].set=1;
 						table[n*i+j].n=table[n*(i-1)+k].n+1;
@@ -123,7 +105,7 @@ int buildTable(int array[MAX_DISH], int n) { //the first n numbers are used
 						table[n*i+j].low=table[n*(i-1)+k].low;
 					}
 				}
-				//if none fit this dish, then just copy the biggest prior set
+				
 				if (table[n*i+j].set==0) {
 					table[n*i+j].n=0;
 					for (k=j-1; k>=0 && table[n*i+j].n<k+1; k--) {
@@ -135,7 +117,6 @@ int buildTable(int array[MAX_DISH], int n) { //the first n numbers are used
 			}
 		}
 	}
-	//Now, all we must do is find the tallest stack of dishes on the last rank of the matrix.
 	int tallest_stack=2;
 	for (j=2; j<n; j++) {
 		if (table[n*(n-1)+j].n>tallest_stack) {
@@ -149,7 +130,6 @@ int main(int argc, char *argv[]) {
         int nonzero=1;
 	int array[MAX_DISH];
         while (nonzero) {
-                //check if first number in run is just "0\n"
                 int decimal=0;
                 double divisor=10;
                 int numToSee=0, c;
@@ -186,7 +166,7 @@ int main(int argc, char *argv[]) {
                 printf("%d\n", result);
         }
 
-        //The returned value is an integer
+        
 
         return 0;
 }
