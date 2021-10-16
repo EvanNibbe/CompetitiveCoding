@@ -127,7 +127,7 @@ int buildTable(int array[MAX_DISH], int n) {
 }
 
 int main(int argc, char *argv[]) {
-        int nonzero=1;
+        int nonzero=1, i;
 	int array[MAX_DISH];
         while (nonzero) {
                 int decimal=0;
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
                 if (numToSee==0) {
                         return 0;
                 }
-                for (int i=0; i<numToSee; i++) {
+                for (i=0; i<numToSee; i++) {
                         decimal=0;
                         divisor=10;
                         int curX=0;
